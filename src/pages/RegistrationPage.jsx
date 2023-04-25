@@ -1,5 +1,6 @@
 import React from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import RegistrationForm from '../components/patients/RegistrationForm'
 
 function RegistrationPage() {
     return (
@@ -7,7 +8,9 @@ function RegistrationPage() {
             <Helmet>
                 <title>Patient Registration</title>
             </Helmet>
-            <div>Patient Registration</div>
+            <div>
+                <RegistrationForm/>
+            </div>
         </HelmetProvider>
     )
 }
