@@ -1,8 +1,14 @@
 import React from 'react'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 function PageNotFound() {
     return (
-        <div>PageNotFound</div>
+        <HelmetProvider>
+            <Helmet>
+                <title>Page Not Found</title>
+            </Helmet>
+            <div>Page Not Found</div>
+        </HelmetProvider>
     )
 }
 
