@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import {BsHeartPulse} from 'react-icons/bs'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function PatientVitalsForm(props) {
+    const [date, setDate] = useState()
     const [height, setHeight] = useState()
     const [weight, setWeight] = useState()
     const [bmi, setBmi] = useState(0)
@@ -24,6 +27,10 @@ function PatientVitalsForm(props) {
         }
     }, [bmi])
 
+    function dateHandler(date){
+        setDate(date)
+    }
+
     function submitHandler(e){
         e.preventDefault()
     }
@@ -38,14 +45,18 @@ function PatientVitalsForm(props) {
                         <label className="label">
                             <span className="label-text">Date</span>
                         </label>
-                        <input type="text" required name="date" className="input input-bordered w-full " />
+                        <DatePicker
+                            selected={date}
+                            onChange={(dateTime) => dateHandler(dateTime)}
+                            className='input input-bordered w-full'
+                            dateFormat="d MMMM yyyy"
+                        />
                     </div>
                     <div className="form-control mb-3">
                         <label className="label">
                             <span className="label-text">Height (cm)</span>
                         </label>
                         <input 
-                            defaultValue={0}
                             onChange={e => setHeight(e.target.value)}
                             type="number" 
                             required 
@@ -57,7 +68,6 @@ function PatientVitalsForm(props) {
                             <span className="label-text">Weight (kg)</span>
                         </label>
                         <input 
-                            defaultValue={0}
                             onChange={e => setWeight(e.target.value)}
                             type="number" 
                             required 
