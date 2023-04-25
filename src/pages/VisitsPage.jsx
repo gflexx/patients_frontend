@@ -1,13 +1,16 @@
 import React from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import PatientVitalsForm from '../components/patients/PatientVitalsForm'
 
 function VisitsPage(props) {
     return (
         <HelmetProvider>
             <Helmet>
-                <title>Patients Visits</title>
+                <title>Patient Visit</title>
             </Helmet>
-            <div>VisitsPage</div>
+            <div>
+                <PatientVitalsForm/>
+            </div>
         </HelmetProvider>
     )
 }
