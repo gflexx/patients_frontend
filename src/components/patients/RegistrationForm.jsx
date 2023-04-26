@@ -2,22 +2,38 @@ import React, { useState, useEffect, useRef } from 'react'
 import {MdPersonAddAlt} from 'react-icons/md'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import FormError from '../feedback/FormError';
+import Loading from '../feedback/Loading';
+import moment from 'moment'
 
 function RegistrationForm(props) {
     const [date, setDate] = useState()
     const firstNameRef = useRef()
     const lastNameRef = useRef()
     const genderRef = useRef()
+    const error = props.error
+    const loading = props.loading
     
     useEffect(() => {}, [date])
+    useEffect(() => {}, [error])
+    useEffect(() => {}, [loading])
 
     function dateHandler(date){
         setDate(date)
-        console.log(date)
     }
 
     function submitHandler(e){
         e.preventDefault()
+        props.setError()
+        const year = moment(date, 'Y').format('YYYY')
+        const month = moment(date, 'M').format('MM')
+        const day = moment(date, 'D').format('DD')
+        const formData = new FormData()
+        formData.append("first_name", firstNameRef.current.value)
+        formData.append("last_name", lastNameRef.current.value)
+        formData.append("gender", genderRef.current.value)
+        formData.append("dob", `${year}-${month}-${day}`)
+        props.submitHandler(formData)
     }
     return (
         <div className='flex justify-center mt-12'>
@@ -26,6 +42,9 @@ function RegistrationForm(props) {
                     <div className="flex justify-center">
                         <h1 className='text-3xl mb-9 text-primary flex items-center'><MdPersonAddAlt className='h-10 mr-3'/> Patient Registration</h1>
                     </div>  
+                    {error && (
+                        <FormError error={error}/>
+                    )}
                     <div className="form-control mb-3">
                         <label className="label">
                             <span className="label-text">First Name</span>
@@ -43,6 +62,7 @@ function RegistrationForm(props) {
                             <span className="label-text">DOB</span>
                         </label>
                         <DatePicker
+                            required
                             selected={date}
                             onChange={(dateTime) => dateHandler(dateTime)}
                             className='input input-bordered w-full'
@@ -54,14 +74,18 @@ function RegistrationForm(props) {
                             <span className="label-text">Gender</span>
                         </label>
                         <select name="gender" ref={genderRef} className='select select-bordered w-full'>
-                            <option value={1}>Female</option>
-                            <option value={2}>Male</option>
-                            <option value={3}>Other</option>
+                            <option value={"female"}>Female</option>
+                            <option value={"male"}>Male</option>
+                            <option value={"other"}>Other</option>
                         </select>
                     </div>
                     <div className="flex justify-between">
                         <button className='btn'>Clear</button>
-                        <button type="submit" className='btn btn-primary'>Save</button>
+                        {loading ? (
+                            <Loading/>
+                        ):(
+                            <button type="submit" className='btn btn-primary'>Save</button>
+                        )}
                     </div>
                 </form>
             </div>

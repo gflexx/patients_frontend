@@ -6,7 +6,7 @@ import VisitsPage from './pages/VisitsPage';
 import PageNotFound from './pages/PageNotFound';
 import NavBar from './components/nav/NavBar';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <NavBar/>

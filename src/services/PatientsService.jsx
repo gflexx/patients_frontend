@@ -14,10 +14,10 @@ const getPatientRecords = () => {
     return axiosIntance.get(`${api}/records/`)
 }
 
-const patientServices = [
+const patientServices = {
     registerPatient,
     addPatientRecord,
     getPatientRecords
-]
+}
 
 export default patientServices
