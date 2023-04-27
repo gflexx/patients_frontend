@@ -112,6 +112,11 @@ function PatientVitalsForm(props) {
                                                 patientSelector={patientSelector}
                                             />
                                         ))}
+                                        {patients.length === 0 && (
+                                            <div className='text-center font-bold'>
+                                                No patients added yet.
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
