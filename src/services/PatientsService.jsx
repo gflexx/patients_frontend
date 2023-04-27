@@ -6,6 +6,10 @@ const registerPatient = (details) => {
     return axiosIntance.post(`${api}/patients/`, details)
 }
 
+const getPatients = () => {
+    return axiosIntance.get(`${api}/patients/`)
+}
+
 const addPatientRecord = (details) => {
     return axiosIntance.post(`${api}/records/`, details)
 }
@@ -17,7 +21,8 @@ const getPatientRecords = () => {
 const patientServices = {
     registerPatient,
     addPatientRecord,
-    getPatientRecords
+    getPatientRecords,
+    getPatients
 }
 
 export default patientServices

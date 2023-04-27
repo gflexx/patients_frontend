@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import {BsHeartPulse} from 'react-icons/bs'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from '../feedback/Loading';
 import moment from 'moment'
 import FormError from '../feedback/FormError';
+import SessionContext from '../../context/SessionContext';
+import patientServices from '../../services/PatientsService';
+import PatientSelectItem from './PatientSelectItem';
 
 function PatientVitalsForm(props) {
     const [date, setDate] = useState()
@@ -14,10 +17,12 @@ function PatientVitalsForm(props) {
     const [trakinDrugs, setTakinDrugs] = useState(false)
     const [generalHealth, setGeneralHealth] = useState("good")
     const [showSection, setShowSection] = useState(false)
+    const [patients, setPatients] = useState([])
     const commentRef = useRef()
     const loading = props.loading
     const error = props.error
     const patientData = props.patientData
+    const sessionCtx = useContext(SessionContext)
 
     useEffect(() => {
         if (height > 0 && weight > 0) {
@@ -37,7 +42,20 @@ function PatientVitalsForm(props) {
 
     useEffect(() => {}, [error])
     useEffect(() => {}, [loading])
-    useEffect(() => {}, [patientData])
+    useEffect(() => {
+        if (patientData === null) {
+            patientServices.getPatients().then(
+                res => {
+                    console.log(res.data);
+                    setPatients(res.data)
+                }
+            )
+        }
+    }, [patientData])
+
+    function patientSelector(patient){
+        sessionCtx.setPatientData(patient)
+    }
 
     function changeDrugStatus(e){
         setTakinDrugs(e.target.value)
@@ -76,9 +94,28 @@ function PatientVitalsForm(props) {
                         <h1 className='text-3xl mb-9 text-primary flex items-center'><BsHeartPulse className='h-10 mr-3'/> Patient Vitals</h1>
                     </div>
                     {patientData === null ? (
-                        <div className='alert alert-warning mb-3'>
-                            <p className='text-center text-lg font-bold'>Patient Data is needed, please register patient first</p>
-                        </div>
+                        <span>
+                            <div className='alert alert-warning mb-5'>
+                                <p className='text-center text-lg font-bold'>Patient Data is needed, please register patient first</p>
+                            </div>
+                            <div className="flex justify-center">
+                                <label htmlFor="patients-modal" id='modal-open-btn' className="btn btn-primary">Choose Existing Patient</label>
+                                <input type="checkbox" id="patients-modal" className="modal-toggle" />
+                                <div className="modal">
+                                    <div className="modal-box relative">
+                                        <label htmlFor="patients-modal" id='modal-close-btn' className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                        <h3 className="font-bold text-center text-lg mb-5">Choose patient.</h3>
+                                        {patients.map((patient, idx) => (
+                                            <PatientSelectItem
+                                                key={idx}
+                                                patient={patient}
+                                                patientSelector={patientSelector}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
                     ):(
                         <div className=''>
                             <p className='text-center text-lg font-bold mb-3'>Add details for: {patientData?.first_name} {patientData?.last_name}</p>
