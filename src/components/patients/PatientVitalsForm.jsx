@@ -108,6 +108,7 @@ function PatientVitalsForm(props) {
                                         {patients.map((patient, idx) => (
                                             <PatientSelectItem
                                                 key={idx}
+                                                idx={idx}
                                                 patient={patient}
                                                 patientSelector={patientSelector}
                                             />

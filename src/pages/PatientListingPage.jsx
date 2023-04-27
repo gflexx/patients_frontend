@@ -30,7 +30,7 @@ function PatientListingPage() {
             </Helmet>
             <div className='p-3'>
                 <div className="flex justify-center">
-                    <h1 className='text-3xl mb-6 text-primary flex items-center'><IoPeople className='h-10 mr-3'/> Patient Listing</h1>
+                    <h1 className='text-3xl mb-6 text-primary flex items-center'><IoPeople className='h-10 mr-3'/> Patient Record Listing</h1>
                 </div>
                 {loading ? (
                     <div className='flex justify-center'>

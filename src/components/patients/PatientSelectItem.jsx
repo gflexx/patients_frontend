@@ -9,10 +9,11 @@ function PatientSelectItem(props) {
         props.patientSelector(patient)
     }
     return (
-        <div className='flex mb-2'>
+        <div className='flex mb-2 items-center justify-between border rounded p-2'>
+            <div className='text-sm'>{props.idx + 1}. </div>
             <div className='w-1/3 text-sm font-bold'>{patient?.first_name} {patient?.last_name}</div>
-            <div className='w-1/4 text-sm'>{patient?.gender}</div>
-            <div className='w-1/4 font-bold text-sm'>{moment(patient?.dob).fromNow()}</div>
+            <div className='w-2/12 text-sm'>{patient?.gender}</div>
+            <div className='w-2/12 font-bold text-sm'>{moment(patient?.dob).fromNow().replace('ago','')}</div>
             <div ><a onClick={() => selectPatient(patient)} className='btn btn-outline btn-sm'>Select</a></div>
         </div>
     )
